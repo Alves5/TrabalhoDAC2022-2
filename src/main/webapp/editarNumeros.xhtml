@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+		<title>Página de Edição</title>
+	<style>
+		body .ui-panelgrid .ui-panelgrid-cell {
+            background-color: transparent;
+        }
+		   .my-heading-row {
+            background-color: var(--surface-c);
+            font-weight: bold;
+        }
+    </style>		
+	</h:head>
+<h:body>
+	<h:form id="form">
+		<p:messages id="messages" showDetail="true" closable="true">
+			<p:autoUpdate/>
+		</p:messages>
+		<div class="card">
+			<h:inputHidden value="#{jogoBean.jogo.id}" />
+			<p:panelGrid columns="4"
+	          columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+	          layout="grid"
+	          styleClass="ui-panelgrid-blank ui-fluid"
+	          style="border:0px none; background-color:transparent;" id="manage-game">
+	
+				<p:row styleClass="my-heading-row">Edição de números</p:row>
+					<p:outputLabel for="numero1" value="Número 1"/>
+				   	<p:inputText value="#{jogoBean.jogo.v1}" id="numero1" />
+				
+				    <p:outputLabel for="numero2" value="Número 2"/>
+				   	<p:inputText value="#{jogoBean.jogo.v2}" id="numero2"/>
+				   	
+				   	<p:outputLabel for="numero3" value="Número 3"/>
+				   	<p:inputText value="#{jogoBean.jogo.v3}" id="numero3"/>
+				   	
+				   	<p:outputLabel for="numero4" value="Número 4"/>
+				   	<p:inputText value="#{jogoBean.jogo.v4}" id="numero4"/>
+				   	
+				   	<p:outputLabel for="numero5" value="Número 5"/>
+				   	<p:inputText value="#{jogoBean.jogo.v5}" id="numero5"/>
+								        
+				    <p:commandButton value="Salvar" action="#{jogoBean.update}" update="form"/>
+				
+			    	</p:panelGrid>    
+			    </div>
+			</h:form>
+</h:body>
+</html>
