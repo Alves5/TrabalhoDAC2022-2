@@ -17,11 +17,10 @@ import entidade.Jogo;
 public class JogoBean {
 	private Jogo jogo = new Jogo();
 	private List<Jogo> lista;
-
+	
 	public String save() {
 		try {
 			jogo.setDataCadastro(new Date());
-			jogo.setMaiorN(JogoDAO.maiorNumero(jogo.getV1(),jogo.getV2(),jogo.getV3(),jogo.getV4(),jogo.getV5()));
 			JogoDAO.insert(jogo);
 			addInfoMessage("Sucesso", "Números adicionados com sucesso.");
 			jogo = new Jogo();
@@ -33,9 +32,11 @@ public class JogoBean {
 	
 	public String update() {
 		try {
+			Jogo j = JogoDAO.buscarPorId(jogo.getId());
+			jogo.setDataCadastro(j.getDataCadastro());
 			JogoDAO.update(jogo);
 			addInfoMessage("Sucesso", "Números atualizados com sucesso.");
-			lista = JogoDAO.list();
+			lista = JogoDAO.list(); 
 			return "listagem";
 		} catch (Exception e) {
 			addErrorMessage("Erro", "Erro ao atualizar números.");
@@ -50,11 +51,21 @@ public class JogoBean {
 			lista = JogoDAO.list();
 			PrimeFaces.current().ajax().update("dataTable");
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			addErrorMessage("Erro", "Erro ao deletar números.");
 		}
 		return null;	
 	}
+	
+	
+	public String maior() {
+		try {
+			Integer m = JogoDAO.maiorNumero(jogo.getV1(),jogo.getV2(),jogo.getV3(),jogo.getV4(),jogo.getV5()); System.out.println(m); 
+			addInfoMessage("Maior Número é:",""+m); 
+		} catch (Exception e) {
+			System.out.println("Deu erro -> "+e.getMessage());
+		} return null;
+	}
+	 
 	
 	public Jogo getJogo() {
 		return jogo;

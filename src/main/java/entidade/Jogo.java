@@ -26,7 +26,6 @@ public class Jogo {
 	private Integer v4;
 	@Column(name="valor_5")
 	private Integer v5;
-	private Integer maiorN;
 	
 	public Integer getId() {
 		return id;
@@ -69,12 +68,6 @@ public class Jogo {
 	}
 	public void setV5(Integer v5) {
 		this.v5 = v5;
-	}
-	public Integer getMaiorN() {
-		return maiorN;
-	}
-	public void setMaiorN(Integer maiorN) {
-		this.maiorN = maiorN;
 	}
 	
 }
