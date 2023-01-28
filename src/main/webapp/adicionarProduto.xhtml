@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>Adicionar Produtos</title>
+	<style>
+        /* reset on the showcase style*/
+        body .ui-panelgrid .ui-panelgrid-cell {
+            background-color: transparent;
+        }
+
+        /* example use of styles for your form */
+        .my-heading-row {
+            background-color: var(--surface-c);
+            font-weight: bold;
+        }
+        button.ui-button {
+        	margin-right: .5rem;
+    	}
+    </style>	
+</h:head>
+<h:body>
+
+	<h:form id="form">
+		<p:growl id="messages" life="1600" showDetail="true"/>
+		
+		<h:inputHidden value="#{produtoBean.produto.id}" />
+		<div class="card">
+			<p:panelGrid id="panel" columns="4"	
+                 columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                 layout="grid"
+                 styleClass="ui-panelgrid-blank ui-fluid"
+                 style="border:0px none; background-color:transparent;">
+
+				<p:row styleClass="my-heading-row">Adicionar produtos</p:row>
+					<p:outputLabel for="nome" value="Nome"/>
+				   	<p:inputText value="#{produtoBean.produto.nome}" id="nome" required="true"/>
+				
+				    <p:outputLabel for="descricao" value="Descrição"/>
+				   	<p:inputTextarea rows="2" cols="33" id="descricao" maxlength="130" value="#{produtoBean.produto.descricao}"/>
+				   	
+				   	<p:outputLabel for="preco" value="Preço"/>
+				   	<p:inputNumber id="preco" value="#{produtoBean.produto.preco}" symbol="R$ "
+                                symbolPosition="p" required="true"/>
+				   	
+				   	<p:outputLabel for="quantidade" value="Quantidade"/>
+				   	<p:inputText value="#{produtoBean.produto.quantidade}" id="quantidade" required="true"/>
+				   
+	                <p:outputLabel for="@next" value="Categoria"/>
+	                <p:selectOneMenu id="option" value="#{produtoBean.produto.categoria}" required="true">
+	                    <f:selectItem itemLabel="Alimento" itemValue="Alimento"/>
+	                    <f:selectItem itemLabel="Bebida" itemValue="Bebida"/>
+	                    <f:selectItem itemLabel="Construção" itemValue="Construção"/>
+	                </p:selectOneMenu>
+						
+					 <p:panelGrid columns="8"	
+                 		columnClasses="ui-grid-col-8"
+                 		layout="grid">       
+                 		
+				    	<p:commandButton styleClass="ui-button-success" value="Adicionar" action="#{produtoBean.adicionar}" update="form" ajax="false"/>
+				    	<!-- <p:commandButton value="Editar" action="" update="form" ajax="false" /> -->
+				    	<p:commandButton styleClass="ui-button-danger" value="Reset" update="panel" process="@this"
+                                 action="#{produtoBean.reset}"/>
+				    </p:panelGrid>
+				
+			    	</p:panelGrid>    
+			    </div>
+		</h:form>
+		<div class="card">
+		    <h:form>
+		        <p:dataTable size="small" id="products" var="product" value="#{produtoBean.lista}"
+		        	style="text-align: center;" paginator="true" rows="6" paginatorPosition="bottom" 
+		        	emptyMessage="Nenhum registro encontrado." rowKey="#{product.id}"
+                     selection="#{produtoBean.produto}" selectionMode="single">
+		            <f:facet name="header">
+		                Produtos
+		            </f:facet>
+		
+		            <p:column style="text-align: center;" headerText="Id" sortBy="#{product.id}" sortOrder="asc">
+		                <h:outputText value="#{product.id}" />
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Nome">
+		                <h:outputText value="#{product.nome}" />
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Descrição">
+		                <h:outputText value="#{product.descricao}" />
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Preço">
+		                <h:outputText value="#{product.preco}" />
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Quantidade">
+		                <h:outputText value="#{product.quantidade}" />
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Categoria">
+		                <h:outputText value="#{product.categoria}" />
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Data cadastro">
+		                <h:outputText value="#{product.dataCadastro}">
+		                	<f:convertDateTime dateStyle="full" pattern="dd/MM/yyyy '-' HH:mm:ss"/> 
+		                </h:outputText>
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Data edição">
+		                <h:outputText value="#{product.dataEdicao}">
+		                	<f:convertDateTime dateStyle="full" pattern="dd/MM/yyyy '-' HH:mm:ss"/> 
+		                </h:outputText>
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Editar">
+		            	<p:commandButton action="@form" ajax="false" icon="pi pi-pencil">
+		            	   <f:setPropertyActionListener value="#{product}" target="#{produtoBean.produto}" />
+		            	</p:commandButton>
+		            </p:column>
+		            <p:column style="text-align: center;" headerText="Deletar">
+		            	<p:commandButton styleClass="ui-button-danger" ajax="false" icon="pi pi-trash" action="#{produtoBean.deletar}">
+		            	   <f:setPropertyActionListener value="#{product}" target="#{produtoBean.produto}" />
+		            	</p:commandButton>
+		            </p:column>
+		        </p:dataTable>
+		
+		        
+		    </h:form>
+		</div>
+		<h:form>	    
+			<!-- <p:dataTable style="text-align: center;" id="dataTable" rendered="true" value="#{produtoBean.lista}" var="p"
+			 paginator="true" rows="6" rowSelectMode="add" paginatorPosition="bottom" emptyMessage="Nenhum registro encontrado.">
+				<f:facet name="header">
+	                <div class="products-table-header">
+	                    <span style="font-weight: bold">PRODUTOS</span>
+	                </div>
+	            </f:facet>
+			 
+				<p:column style="text-align: center;" headerText="Código" sortBy="#{p.id}" sortOrder="asc">
+					<p:outputLabel value="#{p.id}"/>
+				</p:column>
+			    <p:column style="text-align: center;" headerText="Nome" sortBy="#{p.nome}">
+			    	<p:outputLabel value="#{p.nome}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Descriçao" sortBy="#{p.descricao}">
+			    	<p:outputLabel value="#{p.descricao}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Preço" sortBy="#{p.preco}">
+			    	<p:outputLabel value="#{p.preco}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Quantidade" sortBy="#{p.quantidade}">
+			    	<p:outputLabel value="#{p.quantidade}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Categoria" sortBy="#{p.categoria}">
+			    	<p:outputLabel value="#{p.categoria}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Data cadastro" sortBy="#{p.dataCadastro}">
+			    	<h:outputText value="#{p.dataCadastro}">
+			    		<f:convertDateTime dateStyle="full" pattern="yyyy.MM.dd '-' HH:mm:ss z"/>  
+			    	</h:outputText>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Data edição" sortBy="#{p.dataEdicao}">
+			    	<h:outputText value="#{p.dataEdicao}">
+			    		<f:convertDateTime dateStyle="full" pattern="yyyy.MM.dd '-' HH:mm:ss z"/>  
+			    	</h:outputText>
+			    </p:column>
+			    
+			    <p:column style="text-align: center;" headerText="Editar">
+	                <p:commandButton icon="pi pi-cog" styleClass="edit-button rounded-button" action="@form" ajax="false">
+	                    <f:setPropertyActionListener value="#{p}" target="#{produtoBean.produto}" />
+	                </p:commandButton>
+	            </p:column>
+	            
+			    <p:column style="text-align: center;" headerText="Deletar">
+	                <p:commandButton class="ui-button-warning" icon="pi pi-trash" action="" ajax="false">
+	                    <f:setPropertyActionListener value="#{p}" target="#{produtoBean.produto}" />
+	                </p:commandButton>
+	            </p:column>
+			</p:dataTable> -->
+
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head><title>Tabela de números</title></h:head>
+<h:body>
+	<p:link outcome="index" value="Cadastro"/><br/><br/>
+	<h:form>
+		<p:panel header="Registro de jogadas" >
+			<p:messages id="messages" showDetail="true" closable="true">
+				<p:autoUpdate/>
+			</p:messages>
+			<p:dataTable style="text-align: center;" id="dataTable" rendered="true" value="#{jogoBean.lista}" var="j"
+			 paginator="true" rows="6" rowSelectMode="add" paginatorPosition="bottom" emptyMessage="Nenhum registro encontrado.">
+			 
+				<p:column style="text-align: center;" headerText="Código" sortBy="#{j.id}" sortOrder="asc">
+					<p:outputLabel value="#{j.id}"/>
+				</p:column>
+			    <p:column style="text-align: center;" headerText="Número 1" sortBy="#{j.v1}">
+			    	<p:outputLabel value="#{j.v1}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Número 2" sortBy="#{j.v2}">
+			    	<p:outputLabel value="#{j.v2}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Número 3" sortBy="#{j.v3}">
+			    	<p:outputLabel value="#{j.v3}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Número 4" sortBy="#{j.v4}">
+			    	<p:outputLabel value="#{j.v4}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Número 5" sortBy="#{j.v5}">
+			    	<p:outputLabel value="#{j.v5}"/>
+			    </p:column>
+			    <p:column style="text-align: center;" headerText="Data cadastro" sortBy="#{j.dataCadastro}">
+			    	<h:outputText value="#{j.dataCadastro}">
+			    		<f:convertDateTime dateStyle="full" pattern="yyyy.MM.dd '-' HH:mm:ss z"/>  
+			    	</h:outputText>
+			    </p:column>
+			    
+			    <p:column style="text-align: center;" headerText="Editar">
+	                <p:commandButton icon="pi pi-cog" styleClass="edit-button rounded-button" action="editarNumeros.xhtml" ajax="false">
+	                    <f:setPropertyActionListener value="#{j}" target="#{jogoBean.jogo}" />
+	                </p:commandButton>
+	            </p:column>
+	            
+			    <p:column style="text-align: center;" headerText="Deletar">
+	                <p:commandButton class="ui-button-warning" icon="pi pi-trash" action="#{jogoBean.deletar}" ajax="false">
+	                    <f:setPropertyActionListener value="#{j}" target="#{jogoBean.jogo}" />
+	                </p:commandButton>
+	            </p:column>
+	            <p:column style="text-align: center;" headerText="Maior número">
+	                <p:commandButton icon="pi pi-plus" action="#{jogoBean.maior}" ajax="false">
+	                    <f:setPropertyActionListener value="#{j}" target="#{jogoBean.jogo}" />
+	                </p:commandButton>
+	            </p:column>
+			</p:dataTable>
+		</p:panel>
+	
+	</h:form>
+</h:body>
+</html>
